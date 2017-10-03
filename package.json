@@ -33,10 +33,10 @@
   },
   "dependencies": {
     "debug": "2.2.0",
-    "mongodb-prebuilt": "^5.0.6",
+    "mongodb-prebuilt": "git+https://github.com/preempt/mongodb-prebuilt.git",
     "portfinder": "^1.0.3",
-    "rimraf": "^2.5.1",
-	"q": "^1.4.1"
+    "q": "^1.4.1",
+    "rimraf": "^2.5.1"
   },
   "devDependencies": {
     "chai": "~2.2.0",
