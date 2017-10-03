@@ -2,8 +2,7 @@ var should = require('chai').should();
 var expect = require('chai').expect;
 var Mongoose = require('mongoose').Mongoose;
 var mongoose = new Mongoose;
-var Mockgoose = require('../built/mockgoose').Mockgoose;
-var mockgoose = new Mockgoose(mongoose);
+var mockgoose = require('../Mockgoose');
 
 var Cat = mongoose.model('Cat', {
     name: String
@@ -12,7 +11,7 @@ var Cat = mongoose.model('Cat', {
 
 describe('issue 179', function() {
     before(function(done) {
-		mockgoose.prepareStorage().then(function() {
+		mockgoose(mongoose).then(function() {
         	mongoose.connect('mongodb://127.0.0.1:27017/TestingDB', function(err) {
         	    done(err);
         	});
@@ -20,7 +19,7 @@ describe('issue 179', function() {
     });
 
     beforeEach(function(done) {
-        mockgoose.helper.reset().then(function() {
+        mockgoose.reset(function() {
             done();
         });
     });

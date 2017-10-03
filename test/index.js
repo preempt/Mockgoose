@@ -3,14 +3,13 @@ var should = require('chai').should()
 ,expect = require('chai').expect
 , Mongoose = require('mongoose').Mongoose
 , mongoose = new Mongoose
-, Mockgoose = require('../built/mockgoose').Mockgoose
-, mockgoose = new Mockgoose(mongoose)
+, mockgoose = require('../Mockgoose')
 , Cat = mongoose.model('Cat', { name: String });
 
 
 describe('User functions', function() {
     before(function(done) {
-		mockgoose.prepareStorage().then(function() {
+		mockgoose(mongoose).then(function() {
         	mongoose.connect('mongodb://127.0.0.1:27017/TestingDB', function(err) {
         	    done(err);
         	}); 
@@ -18,7 +17,7 @@ describe('User functions', function() {
     });
 
     it("isMocked", function(done) {
-		expect(mockgoose.helper.isMocked()).to.be.true;
+		expect(mongoose.isMocked).to.be.true;
 		done();
     });
     it("should create a cat foo", function(done) {
@@ -43,10 +42,25 @@ describe('User functions', function() {
     });
 
     it("reset", function(done) {
-    	mockgoose.helper.reset().then(function() {
+    	mockgoose.reset(function() {
     	    done();
     	});
     });
 
+    it("unmock", function(done) {
+	mongoose.unmock(function() {
+	    done();
+	});
+    });
+
+    if ( process.env.MOCKGOOSE_LIVE ) {
+    	it("unmockAndReconnect", function(done) {
+    	    mongoose.unmockAndReconnect(function(err) {
+    	    	expect(mongoose.isMocked).to.be.undefined;
+    	    	expect(err).to.be.falsy;
+    	    	done(err);
+    	    });
+    	});
+    }
 
 });

@@ -3,12 +3,11 @@
 
 describe('callback', function todoDescribe() {
   var Mongoose = require('mongoose').Mongoose;
-  var Mockgoose = require('../built/mockgoose').Mockgoose;
+  var mockgoose = require('../Mockgoose');
   var mongoose = new Mongoose();
-  var mockgoose = new Mockgoose(mongoose);
   
   before(function(done) {
-  	mockgoose.prepareStorage().then(function() {
+  	mockgoose(mongoose).then(function() {
     	mongoose.connect('mongodb://localhost/mydb', function() {
     	    done(); 
     	});
@@ -16,7 +15,7 @@ describe('callback', function todoDescribe() {
   });
 
   it('should call callback by reset', function(done) {
-    mockgoose.helper.reset().then(function(err) {
+    mockgoose.reset(function(err) {
        done();
     });
   });
@@ -36,6 +35,6 @@ describe('callback', function todoDescribe() {
   });
 
   it('should work with empty callback', function(){
-    mockgoose.helper.reset();
+    mockgoose.reset();
   });
 });
